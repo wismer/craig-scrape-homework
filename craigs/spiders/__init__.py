@@ -9,7 +9,7 @@ from craigs.items import CraigsItem
 class BookSpider(Spider):
   name = "craig"
   allowed_domains = ["craigslist.org"]
-  start_urls = ["http://newyork.craigslist.org/break"]
+  start_urls = ["http://newyork.craigslist.org/bka"]
 
   def parse(self, response):
     hxs = HtmlXPathSelector(response)
