@@ -8,7 +8,6 @@
 from scrapy.item import Item, Field
 
 class CraigsItem(Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
+    timestamp_audit = Field()
     link = Field()
     text = Field()
