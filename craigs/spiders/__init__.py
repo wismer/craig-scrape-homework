@@ -2,39 +2,21 @@
 #
 # Please refer to the documentation for information on how to create and manage
 # your spiders.
-
-
-from scrapy.spider import BaseSpider
+from scrapy.spider import Spider
 from scrapy.selector import HtmlXPathSelector
 from craigs.items import CraigsItem
 
-class BookSpider(BaseSpider):
+class BookSpider(Spider):
   name = "craig"
   allowed_domains = ["craigslist.org"]
-  start_urls = ["http://newyork.craigslist.org/search/bka"]
-
-  def link_text(self, link):
-    return link.select("/text()").extract()
+  start_urls = ["http://newyork.craigslist.org/break"]
 
   def parse(self, response):
     hxs = HtmlXPathSelector(response)
     titles = hxs.select("//a")
-    list = []
+    link_set = []
     for link in titles:
-      link_href = link.select("@href").extract()
-      print(self.link_text(link))
-
-      # craig_item = CraigsItem()
-      # text = titles.select("a/text()").extract()
-      # if text == []:
-
-      # craig_item['text'] = titles.select("a/text()").extract()
-      # craig_item['link'] = titles.select("a/@href").extract()
-      # print(link)
-
-      # if titles.select("a/text()").extract() == "":
-      #   print(link)
-      # title = titles.select("a/text()").extract()
-      # lnk = titles.select("a/@href").extract()
-      # print(title, lnk)
-      # print(link)
+      item = CraigsItem()
+      item["link"] = link.select("@href").extract()
+      item["text"] = link.select("text()").extract()
+      item["timestamp_audit"] = "eval(new Date();)"
