@@ -15,6 +15,6 @@ class BookSpider(Spider):
     link_set = []
     for link in titles:
       item = CraigsItem()
-      item["link"] = link.select("@href").extract()
-      item["text"] = link.select("text()").extract()
+      item["link"] = link.xpath("@href").extract()
+      item["text"] = link.xpath("text()").extract()
       item["timestamp_audit"] = "eval(new Date();)"
