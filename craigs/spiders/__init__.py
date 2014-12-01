@@ -40,7 +40,7 @@ class BarterSpider(Spider):
     link_set = []
     i = 0
     for link in titles:
-      if i > 100:
+      if i == 100:
         break
       else:
         item = {}
