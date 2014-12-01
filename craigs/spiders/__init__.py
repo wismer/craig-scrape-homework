@@ -18,3 +18,7 @@ class BookSpider(Spider):
       item["link"] = link.xpath("@href").extract()
       item["text"] = link.xpath("text()").extract()
       item["timestamp_audit"] = "eval(new Date();)"
+      if len(link_set) == 100:
+        return link_set
+      else:
+        link_set.append(item)
