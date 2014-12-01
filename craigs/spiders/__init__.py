@@ -4,6 +4,11 @@
 # your spiders.
 from scrapy.spider import Spider
 from craigs.items import CraigsItem
+import pymongo
+import datetime
+from datetime import datetime
+from pymongo import MongoClient
+
 
 class BookSpider(Spider):
   name = "craig"
@@ -22,3 +27,27 @@ class BookSpider(Spider):
         return link_set
       else:
         link_set.append(item)
+
+class BarterSpider(Spider):
+  name = "barter"
+  allowed_domains = ["craigslist.org"]
+  start_urls = ["http://newyork.craigslist.org/bar/"]
+
+  def parse(self, response):
+    client = MongoClient("localhost", 27017)
+    db = client.craigslist
+    titles = response.xpath("//a")
+    link_set = []
+    i = 0
+    for link in titles:
+      if i > 100:
+        break
+      else:
+        item = {}
+        item['link'] = link.xpath("@href").extract()
+        item['text'] = link.xpath("text()").extract()
+        item['timestamp_audit'] = datetime.now()
+        db.barter.insert(item)
+        i += 1
+        # db.barter.insert(item)
+
