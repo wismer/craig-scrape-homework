@@ -3,7 +3,6 @@
 # Please refer to the documentation for information on how to create and manage
 # your spiders.
 from scrapy.spider import Spider
-from scrapy.selector import HtmlXPathSelector
 from craigs.items import CraigsItem
 
 class BookSpider(Spider):
@@ -12,8 +11,7 @@ class BookSpider(Spider):
   start_urls = ["http://newyork.craigslist.org/bka"]
 
   def parse(self, response):
-    hxs = HtmlXPathSelector(response)
-    titles = hxs.select("//a")
+    titles = response.xpath("//a")
     link_set = []
     for link in titles:
       item = CraigsItem()
